@@ -1,53 +1,99 @@
- // Select DOM elements
-const taskInput = document.getElementById("taskInput");
-const addTaskButton = document.getElementById("addTask");
-const taskList = document.getElementById("taskList");
+document.addEventListener("DOMContentLoaded", function () {
+    const taskInput = document.getElementById("taskName");
+    const dueDateInput = document.getElementById("dueDate");
+    const priorityInput = document.getElementById("priority");
+    const addTaskButton = document.getElementById("addTask");
+    const statusFilter = document.getElementById("statusFilter");
+    const taskList = document.getElementById("taskList");
+    const tasks = [];
 
-// Add a task to the list
-function addTask() {
-    const taskText = taskInput.value.trim();
-    if (taskText !== "") {
-        const li = document.createElement("li");
-        li.innerHTML = `
-            ${taskText}
-            <button class="delete">Delete</button>
-        `;
-        taskList.appendChild(li);
+    // Function to render tasks
+    function renderTasks() {
+        taskList.innerHTML = "";
+        const filteredTasks = filterTasks(statusFilter.value);
+        filteredTasks.forEach((task, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <strong>${task.name}</strong> 
+                <small>Due: ${task.dueDate}</small>
+                <span class="priority ${task.priority.toLowerCase()}">${task.priority}</span>
+                <button class="delete" data-index="${index}">Delete</button>
+                <button class="edit" data-index="${index}">Edit</button>
+            `;
+            taskList.appendChild(li);
+        });
+    }
+
+    // Function to add a task
+    function addTask() {
+        const taskName = taskInput.value.trim();
+        const dueDate = new Date(dueDateInput.value).toLocaleString();
+        const priority = priorityInput.value;
+        if (taskName === "") return;
+
+        tasks.push({
+            name: taskName,
+            dueDate: dueDate,
+            priority: priority,
+            status: "todo", // Default status is "To Do"
+        });
+
+        renderTasks();
+        saveTasksToLocalStorage();
         taskInput.value = "";
-        saveTasksToLocalStorage();
+        dueDateInput.value = "";
     }
-}
 
-// Remove a task from the list
-function removeTask(e) {
-    if (e.target.classList.contains("delete")) {
-        e.target.parentElement.remove();
-        saveTasksToLocalStorage();
+    // Function to edit a task
+    function editTask(index) {
+        const newTaskName = prompt("Edit the task:", tasks[index].name);
+        if (newTaskName !== null) {
+            tasks[index].name = newTaskName;
+            renderTasks();
+            saveTasksToLocalStorage();
+        }
     }
-}
 
-// Save tasks to local storage
-function saveTasksToLocalStorage() {
-    const tasks = [...taskList.querySelectorAll("li")].map((li) => li.textContent.trim());
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+    // Function to delete a task
+    function deleteTask(index) {
+        if (confirm("Are you sure you want to delete this task?")) {
+            tasks.splice(index, 1);
+            renderTasks();
+            saveTasksToLocalStorage();
+        }
+    }
 
-// Load tasks from local storage
-function loadTasksFromLocalStorage() {
-    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    tasks.forEach((taskText) => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-            ${taskText}
-            <button class="delete">Delete</button>
-        `;
-        taskList.appendChild(li);
+    // Function to filter tasks by status
+    function filterTasks(status) {
+        if (status === "all") return tasks;
+        return tasks.filter((task) => task.status === status);
+    }
+
+    // Event Listeners
+    addTaskButton.addEventListener("click", addTask);
+    taskList.addEventListener("click", function (e) {
+        if (e.target.classList.contains("edit")) {
+            editTask(e.target.getAttribute("data-index"));
+        } else if (e.target.classList.contains("delete")) {
+            deleteTask(e.target.getAttribute("data-index"));
+        }
     });
-}
+    statusFilter.addEventListener("change", function () {
+        renderTasks();
+    });
 
-// Event Listeners
-addTaskButton.addEventListener("click", addTask);
-taskList.addEventListener("click", removeTask);
+    // Load tasks from local storage
+    function loadTasksFromLocalStorage() {
+        const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        tasks.push(...savedTasks);
+        renderTasks();
+    }
 
-// Load tasks from local storage when the page loads
-window.addEventListener("DOMContentLoaded", loadTasksFromLocalStorage);
+    // Save tasks to local storage
+    function saveTasksToLocalStorage() {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
+    // Load tasks from local storage when the page loads
+    loadTasksFromLocalStorage();
+});

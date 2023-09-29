@@ -9,10 +9,27 @@
 <body>
     <div class="container">
         <h1>Task Manager</h1>
-        <input type="text" id="taskInput" placeholder="Add a new task">
-        <button id="addTask">Add Task</button>
+        <div class="task-input">
+            <input type="text" id="taskName" placeholder="Task name">
+            <input type="datetime-local" id="dueDate">
+            <select id="priority">
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+            <button id="addTask">Add Task</button>
+        </div>
+        <div class="filters">
+            <label for="statusFilter">Filter by Status:</label>
+            <select id="statusFilter">
+                <option value="all">All</option>
+                <option value="todo">To Do</option>
+                <option value="inprogress">In Progress</option>
+                <option value="completed">Completed</option>
+            </select>
+        </div>
         <ul id="taskList"></ul>
     </div>
-    <script src="script.js"></script> 
+    <script src="script.js"></script>
 </body>
 </html>
