@@ -1,3 +1,5 @@
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const taskInput = document.getElementById("taskName");
     const dueDateInput = document.getElementById("dueDate");
@@ -17,8 +19,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 <strong>${task.name}</strong> 
                 <small>Due: ${task.dueDate}</small>
                 <span class="priority ${task.priority.toLowerCase()}">${task.priority}</span>
-                <button class="delete" data-index="${index}">Delete</button>
-                <button class="edit" data-index="${index}">Edit</button>
+                <div class="buttons">
+                    <button class="edit" data-index="${index}">Edit</button>
+                    <button class="delete" data-index="${index}">Delete</button>
+                </div>
             `;
             taskList.appendChild(li);
         });

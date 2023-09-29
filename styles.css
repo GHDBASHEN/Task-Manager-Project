@@ -1,12 +1,78 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+html, body{
+  height: 100%;
+  font-weight: 800;
+  margin: 0;
+  padding: 0;
+}
+body{
+    background: #030321;
+    font-family: Arial;
+  }
+body .container{
+  background: #030321;
+  font-family: Arial;
 }
 
+.header {
+  display: flex;
+/*   border:1px solid red; */
+  height: 100%;
+  align-items: center;
+}
+
+svg {
+    display: block;
+    font: 10.5em 'Montserrat';
+    width: 960px;
+    height: 300px;
+    margin: 0 auto;
+}
+
+.text-copy {
+    fill: none;
+    stroke: white;
+    stroke-dasharray: 6% 29%;
+    stroke-width: 5px;
+    stroke-dashoffset: 0%;
+    animation: stroke-offset 5.5s infinite linear;
+}
+
+.text-copy:nth-child(1){
+  stroke: #4D163D;
+  animation-delay: -1;
+}
+
+.text-copy:nth-child(2){
+  stroke: #840037;
+  animation-delay: -2s;
+}
+
+.text-copy:nth-child(3){
+  stroke: #BD0034;
+  animation-delay: -3s;
+}
+
+.text-copy:nth-child(4){
+  stroke: #BD0034;
+  animation-delay: -4s;
+}
+
+.text-copy:nth-child(5){
+  stroke: #FDB731;
+  animation-delay: -5s;
+}
+
+@keyframes stroke-offset{
+  100% {stroke-dashoffset: -55%;}
+}
+
+
+
+
 .container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
@@ -14,14 +80,17 @@ body {
     border-radius: 5px;
 }
 
+/* Heading styles */
 h1 {
     text-align: center;
     margin-bottom: 20px;
     color: #007bff;
 }
 
+/* Input and button styles */
 .task-input {
     display: flex;
+    flex-direction: column; /* Stack input elements vertically on smaller screens */
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -30,10 +99,17 @@ input[type="text"],
 input[type="datetime-local"],
 select,
 button {
+    width: 100%; /* Make inputs and buttons full width on smaller screens */
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
+}
+
+/* Styling for priority dropdown */
+select {
+    background-color: #fff;
+    cursor: pointer;
 }
 
 button {
@@ -48,10 +124,12 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* Filter dropdown styles */
 .filters {
     margin-bottom: 10px;
 }
 
+/* Task list styles */
 ul {
     list-style: none;
     padding: 0;
@@ -59,8 +137,7 @@ ul {
 
 li {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column; /* Stack task details vertically on smaller screens */
     background-color: #fff;
     padding: 10px;
     margin: 10px 0;
@@ -73,12 +150,14 @@ li:hover {
     transform: scale(1.02);
 }
 
+/* Priority label styles */
 .priority {
     padding: 3px 8px;
     border-radius: 3px;
     font-weight: bold;
 }
 
+/* Priority color styles for smaller screens */
 .high {
     background-color: #ff4444;
     color: #fff;
@@ -102,4 +181,24 @@ li:hover {
 .inprogress {
     background-color: #f0ad4e;
     color: #fff;
+}
+
+/* Media query for screens smaller than 600px */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px; /* Reduce padding for smaller screens */
+    }
+
+    .task-input {
+        flex-direction: row; /* Display input elements side by side on smaller screens */
+    }
+
+    input[type="text"],
+    input[type="datetime-local"],
+    select,
+    button {
+        width: auto; /* Restore default width for input elements */
+    }
+
+    /* Additional mobile styles can be added here */
 }

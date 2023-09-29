@@ -8,7 +8,21 @@
 </head>
 <body>
     <div class="container">
-        <h1>Task Manager</h1>
+        <div class="header">
+            <svg viewBox="0 0 1200 300">
+              <symbol id="s-text">
+                <text  text-anchor="middle" x="50%" y="80%">Task Manager</text>
+              </symbol>
+          
+              <g class = "g-ants">
+                <use xlink:href="#s-text" class="text-copy"></use>
+                <use xlink:href="#s-text" class="text-copy"></use>
+                <use xlink:href="#s-text" class="text-copy"></use>
+                <use xlink:href="#s-text" class="text-copy"></use>
+                <use xlink:href="#s-text" class="text-copy"></use>
+              </g>
+            </svg>
+          </div> 
         <div class="task-input">
             <input type="text" id="taskName" placeholder="Task name">
             <input type="datetime-local" id="dueDate">
