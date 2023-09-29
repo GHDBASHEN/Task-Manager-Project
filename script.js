@@ -1,5 +1,3 @@
-
-
 document.addEventListener("DOMContentLoaded", function () {
     const taskInput = document.getElementById("taskName");
     const dueDateInput = document.getElementById("dueDate");
